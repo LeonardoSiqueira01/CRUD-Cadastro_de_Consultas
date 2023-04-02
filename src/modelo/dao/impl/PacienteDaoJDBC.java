@@ -61,8 +61,26 @@ public class PacienteDaoJDBC implements PacienteDao {
 
 	@Override
 	public Paciente findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		Paciente pc = new Paciente();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+	try {
+		st= conn.prepareStatement("select * from paciente where idPaciente = ?");
+		st.setInt(1, id);
+		rs = st.executeQuery();
+		while(rs.next()) {
+			pc.setIdPaciente(rs.getInt("idPaciente"));
+			pc.setNomePaciente(rs.getString("NomePaciente"));
+			pc.setDataNascPaciente(rs.getDate("dataNascPaciente"));
+			pc.setSexoPaciente(rs.getString("sexoPaciente"));
+		}
+	}catch(SQLException e) {
+		e.printStackTrace();
+	}finally {
+		ConexaoBanco.fecharResultSet(rs);
+		ConexaoBanco.fecharStatment(st);
+	}
+		return pc;
 	}
 
 	@Override

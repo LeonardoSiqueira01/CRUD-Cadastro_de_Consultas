@@ -14,7 +14,7 @@ public class Programa {
 		List<Paciente> lista = new ArrayList<>();
 
 		System.out.println("-----INSERIR PACIENTE-----");
-		Paciente paciente = new Paciente(null, "Carol", new Date(), "Feminino");
+		Paciente paciente = new Paciente(null, "Daniel", new Date(), "Masculino");
 		pacienteDao.insert(paciente);
 		System.out.println("Novo paciente inserido! Id= " + paciente.getIdPaciente());
 
@@ -23,5 +23,12 @@ public class Programa {
 		for (Paciente list : lista) {
 			System.out.println(list);
 		}
+		System.out.println("---------------- Procurar PACIENTE POR ID-------------------");
+		Paciente novoPaciente = new Paciente();
+		 novoPaciente= pacienteDao.findById(11);
+		System.out.println(novoPaciente);
+		
+		
+	
 	}
 }
