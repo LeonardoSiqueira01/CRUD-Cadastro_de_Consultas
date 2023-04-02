@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import conexaoJdbc.ConexaoBanco;
@@ -66,8 +67,26 @@ public class PacienteDaoJDBC implements PacienteDao {
 
 	@Override
 	public List<Paciente> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Paciente> list = new ArrayList<>();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT * FROM paciente");
+			rs = st.executeQuery();
+			while (rs.next()) {
+				Paciente paciente = new Paciente(rs.getInt("idPaciente"), rs.getString("NomePaciente"),
+						rs.getDate("dataNascPaciente"), rs.getString("sexoPaciente"));
+				list.add(paciente);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConexaoBanco.fecharResultSet(rs);
+			ConexaoBanco.fecharStatment(st);
+		}
+
+		return list;
 	}
 
 }
