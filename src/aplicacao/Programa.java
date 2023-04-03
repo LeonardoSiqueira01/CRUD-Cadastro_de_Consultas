@@ -27,9 +27,9 @@ public class Programa {
 		}
 		System.out.println("---------------- PROCURAR PACIENTE POR ID-------------------");
 		Paciente novoPaciente = new Paciente();
-		 novoPaciente= pacienteDao.findById(11);
+		novoPaciente = pacienteDao.findById(11);
 		System.out.println(novoPaciente);
-		
+
 		System.out.println("---------------- ATUALIZAR PACIENTE POR ID-------------------");
 		Paciente p2 = new Paciente();
 		p2 = pacienteDao.findById(22);
@@ -38,7 +38,11 @@ public class Programa {
 		p2.setSexoPaciente("Feminino");
 		pacienteDao.update(p2);
 		System.out.println(p2);
-		
-	
+
+		System.out.println("---------------- DELETAR PACIENTE POR ID-------------------");
+		int nPaciente;
+		pacienteDao.deleteById(nPaciente = 14);
+		System.out.println("Paciente " + nPaciente + " deletado com sucesso!");
+
 	}
 }

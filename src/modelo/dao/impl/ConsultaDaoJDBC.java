@@ -25,7 +25,7 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 	}
 
 	@Override
-	public void deleteById(Consulta id) {
+	public void deleteById(Integer id) {
 		// TODO Auto-generated method stub
 
 	}

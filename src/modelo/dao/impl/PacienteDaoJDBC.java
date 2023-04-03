@@ -53,23 +53,33 @@ public class PacienteDaoJDBC implements PacienteDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement("UPDATE Paciente SET NomePaciente = ? , dataNascPaciente = ?, sexoPaciente = ? "
-					+" WHERE idPaciente = ?");
-			st.setString(1,obj.getNomePaciente());
-			st.setDate(2,new Date(obj.getDataNascPaciente().getTime()));
+					+ " WHERE idPaciente = ?");
+			st.setString(1, obj.getNomePaciente());
+			st.setDate(2, new Date(obj.getDataNascPaciente().getTime()));
 			st.setString(3, obj.getSexoPaciente());
 			st.setInt(4, obj.getIdPaciente());
 			st.executeUpdate();
 			conn.commit();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
-				ConexaoBanco.fecharStatment(st);
+		} finally {
+			ConexaoBanco.fecharStatment(st);
 		}
 	}
 
 	@Override
-	public void deleteById(Paciente id) {
-		// TODO Auto-generated method stub
+	public void deleteById(Integer id) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE  FROM paciente " + "WHERE idPaciente = ?");
+			st.setInt(1, id);
+			st.executeUpdate();
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConexaoBanco.fecharStatment(st);
+		}
 
 	}
 
@@ -78,22 +88,22 @@ public class PacienteDaoJDBC implements PacienteDao {
 		Paciente pc = new Paciente();
 		PreparedStatement st = null;
 		ResultSet rs = null;
-	try {
-		st= conn.prepareStatement("select * from paciente where idPaciente = ?");
-		st.setInt(1, id);
-		rs = st.executeQuery();
-		while(rs.next()) {
-			pc.setIdPaciente(rs.getInt("idPaciente"));
-			pc.setNomePaciente(rs.getString("NomePaciente"));
-			pc.setDataNascPaciente(rs.getDate("dataNascPaciente"));
-			pc.setSexoPaciente(rs.getString("sexoPaciente"));
+		try {
+			st = conn.prepareStatement("select * from paciente where idPaciente = ?");
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			while (rs.next()) {
+				pc.setIdPaciente(rs.getInt("idPaciente"));
+				pc.setNomePaciente(rs.getString("NomePaciente"));
+				pc.setDataNascPaciente(rs.getDate("dataNascPaciente"));
+				pc.setSexoPaciente(rs.getString("sexoPaciente"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConexaoBanco.fecharResultSet(rs);
+			ConexaoBanco.fecharStatment(st);
 		}
-	}catch(SQLException e) {
-		e.printStackTrace();
-	}finally {
-		ConexaoBanco.fecharResultSet(rs);
-		ConexaoBanco.fecharStatment(st);
-	}
 		return pc;
 	}
 

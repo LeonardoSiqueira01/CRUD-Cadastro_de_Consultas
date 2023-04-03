@@ -9,7 +9,7 @@ public interface ConsultaDao {
 
 	void update(Consulta obj);
 
-	void deleteById(Consulta id);
+	void deleteById(Integer id);
 
 	Consulta findById(Integer id);
 
