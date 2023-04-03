@@ -1,6 +1,7 @@
 package modelo.dao.impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,8 +50,21 @@ public class PacienteDaoJDBC implements PacienteDao {
 
 	@Override
 	public void update(Paciente obj) {
-		// TODO Auto-generated method stub
-
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("UPDATE Paciente SET NomePaciente = ? , dataNascPaciente = ?, sexoPaciente = ? "
+					+" WHERE idPaciente = ?");
+			st.setString(1,obj.getNomePaciente());
+			st.setDate(2,new Date(obj.getDataNascPaciente().getTime()));
+			st.setString(3, obj.getSexoPaciente());
+			st.setInt(4, obj.getIdPaciente());
+			st.executeUpdate();
+			conn.commit();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+				ConexaoBanco.fecharStatment(st);
+		}
 	}
 
 	@Override
