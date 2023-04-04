@@ -10,6 +10,7 @@ import modelo.dao.DaoFactory;
 import modelo.dao.PacienteDao;
 import modelo.entidade.Paciente;
 
+
 public class Programa {
 	public static void main(String[] args) throws ParseException {
 		PacienteDao pacienteDao = DaoFactory.criarPacienteDao();
@@ -44,5 +45,6 @@ public class Programa {
 		pacienteDao.deleteById(nPaciente = 14);
 		System.out.println("Paciente " + nPaciente + " deletado com sucesso!");
 
+		
 	}
 }
