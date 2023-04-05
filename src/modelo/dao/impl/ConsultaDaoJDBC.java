@@ -8,8 +8,12 @@ import java.sql.Statement;
 import java.util.List;
 
 import conexaoJdbc.ConexaoBanco;
+import db.DBException;
 import modelo.dao.ConsultaDao;
+import modelo.dao.DaoFactory;
+import modelo.dao.PacienteDao;
 import modelo.entidade.Consulta;
+import modelo.entidade.Paciente;
 
 public class ConsultaDaoJDBC implements ConsultaDao {
 	private Connection conn;
@@ -29,7 +33,7 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 			st.setDate(2, new java.sql.Date(obj.getHorarioConsulta().getTime()));
 			st.setDouble(3, obj.getValorConsulta());
 			st.setInt(4, obj.getPacienteObj().getIdPaciente());
-			
+
 			int rowsAffected = st.executeUpdate();
 			if (rowsAffected > 0) {
 				ResultSet rs = st.getGeneratedKeys();
@@ -50,8 +54,22 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 
 	@Override
 	public void update(Consulta obj) {
-		// TODO Auto-generated method stub
 
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("UPDATE consulta SET dataConsulta =? , horarioConsulta =? , valorConsulta = ? "
+					+ " WHERE idConsulta = ? ");
+			st.setDate(1, new java.sql.Date(obj.getDataConsulta().getTime()));
+			st.setDate(2, new java.sql.Date(obj.getHorarioConsulta().getTime()));
+			st.setDouble(3, obj.getValorConsulta());
+			st.setInt(4, obj.getIdConsulta());
+			st.execute();
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConexaoBanco.fecharStatment(st);
+		}
 	}
 
 	@Override
@@ -62,8 +80,36 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 
 	@Override
 	public Consulta findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT consulta.*, paciente.idPaciente  " + "	FROM consulta INNER JOIN paciente "
+							+ "	ON consulta.idPaciente = paciente.idPaciente " + " WHERE consulta.idConsulta = ?");
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				PacienteDao pdao = DaoFactory.criarPacienteDao();
+				Paciente pc = new Paciente();
+				Consulta obj = new Consulta();
+				pc.setIdPaciente(rs.getInt("idPaciente"));
+				pc = pdao.findById(pc.getIdPaciente());
+				obj.setIdConsulta(rs.getInt("idConsulta"));
+				obj.setDataConsulta(rs.getDate("dataConsulta"));
+				obj.setHorarioConsulta(rs.getDate("horarioConsulta"));
+				obj.setValorConsulta(rs.getDouble("valorConsulta"));
+				obj.setPacienteObj(pc);
+				return obj;
+
+			}
+			return null;
+
+		} catch (SQLException e) {
+			throw new DBException(e.getMessage());
+		} finally {
+			ConexaoBanco.fecharResultSet(rs);
+			ConexaoBanco.fecharStatment(st);
+		}
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public interface ConsultaDao {
 
 	void deleteById(Integer id);
 
-	Consulta findById(Integer id);
+	Consulta findById(Integer id) ;
 
 	List<Consulta> findAll();
 }
