@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import conexaoJdbc.ConexaoBanco;
@@ -17,6 +18,7 @@ import modelo.entidade.Paciente;
 
 public class ConsultaDaoJDBC implements ConsultaDao {
 	private Connection conn;
+	PacienteDao pdao = DaoFactory.criarPacienteDao();
 
 	public ConsultaDaoJDBC(Connection fazerConexao) {
 		this.conn = fazerConexao;
@@ -89,7 +91,6 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				PacienteDao pdao = DaoFactory.criarPacienteDao();
 				Paciente pc = new Paciente();
 				Consulta obj = new Consulta();
 				pc.setIdPaciente(rs.getInt("idPaciente"));
@@ -114,8 +115,31 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 
 	@Override
 	public List<Consulta> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		List<Consulta> listaConsultas = new ArrayList<>();
+		try {
+			st = conn.prepareStatement("SELECT * FROM consulta;");
+			rs = st.executeQuery();
+			while (rs.next()) {
+				Consulta consulta = new Consulta();
+				Paciente paciente = new Paciente();
+				consulta.setIdConsulta(rs.getInt("idConsulta"));
+				consulta.setDataConsulta(rs.getDate("dataConsulta"));
+				consulta.setHorarioConsulta(rs.getDate("horarioConsulta"));
+				consulta.setValorConsulta(rs.getDouble("valorConsulta"));
+				paciente = pdao.findById(rs.getInt("idPaciente"));
+				consulta.setPacienteObj(paciente);
+				listaConsultas.add(consulta);
+			}
+
+			return listaConsultas;
+		} catch (SQLException e) {
+			throw new DBException(e.getMessage());
+		} finally {
+			ConexaoBanco.fecharResultSet(rs);
+			ConexaoBanco.fecharStatment(st);
+		}
 	}
 
 }

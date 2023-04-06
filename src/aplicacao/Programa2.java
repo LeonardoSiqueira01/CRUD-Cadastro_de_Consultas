@@ -39,7 +39,7 @@ public class Programa2 {
 		consultaDao.insert(consulta);
 		System.out.println("Nova consulta. Id da Consulta = " + consulta.getIdConsulta());
 
-		System.out.println("----------ATUALIZAR CONSULTA ----------");
+		System.out.println("---------- ATUALIZAR CONSULTA ----------");
 		Consulta consulta1 = new Consulta();
 		consulta1 = consultaDao.findById(25);
 		consulta1.setDataConsulta(new Date());
@@ -47,6 +47,12 @@ public class Programa2 {
 		consulta1.setValorConsulta(662.11);
 		consultaDao.update(consulta1);
 		System.out.println(consulta1);
+
+		System.out.println("--------- LISTAR TODAS CONSULTAS ----------");
+		List<Consulta> ListaConsultas = consultaDao.findAll();
+		for (Consulta consultas : ListaConsultas) {
+			System.out.println(consultas);
+		}
 
 		sc.close();
 
