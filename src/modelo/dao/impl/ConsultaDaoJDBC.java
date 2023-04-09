@@ -76,7 +76,21 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM consulta WHERE idConsulta = ?");
+			st.setInt(1, id);
+			int linhasAfetadas = st.executeUpdate();
+			conn.commit();
+			System.out.println("Consulta deletada com sucesso!");
+			if (linhasAfetadas == 0) {
+				throw new DBException("Não existe consulta com este Id!");
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			ConexaoBanco.fecharStatment(st);
+		}
 
 	}
 

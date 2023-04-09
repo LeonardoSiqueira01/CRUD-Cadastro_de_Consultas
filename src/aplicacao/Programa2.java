@@ -54,6 +54,8 @@ public class Programa2 {
 			System.out.println(consultas);
 		}
 
+		System.out.println("--------- DELETAR CONSULTA POR ID ----------");
+		consultaDao.deleteById(19);
 		sc.close();
 
 	}
