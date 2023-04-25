@@ -84,8 +84,9 @@ public class Consulta implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Consulta [idConsulta=" + idConsulta + ", dataConsulta=" + dataConsulta + ", horarioConsulta="
-				+ horarioConsulta + ", valorConsulta=" + valorConsulta + ", pacienteObj=" + pacienteObj + "]";
+		return "Consulta"
+				+ " [id da Consulta=" + idConsulta + ", Data da Consulta=" + dataConsulta + ", Horario da Consulta="
+				+ horarioConsulta + ", Valor da Consulta=" + valorConsulta + ", Paciente=" + pacienteObj + "]";
 	}
 
 }

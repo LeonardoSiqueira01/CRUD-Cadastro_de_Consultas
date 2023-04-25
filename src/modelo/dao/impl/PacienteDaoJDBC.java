@@ -14,7 +14,7 @@ import modelo.dao.PacienteDao;
 import modelo.entidade.Paciente;
 
 public class PacienteDaoJDBC implements PacienteDao {
-	private Connection conn;
+	private Connection conn; 
 
 	public PacienteDaoJDBC(Connection fazerConexao) {
 		this.conn = fazerConexao;

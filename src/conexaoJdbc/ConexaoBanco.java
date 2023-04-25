@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConexaoBanco {
-	private static String UrlBanco = "jdbc:mysql://localhost:3306/CRUD?useTimezone=true&serverTimezone=UTC&useSSL=false";
+	private static String UrlBanco = "jdbc:mysql://localhost:3306/CRUD";
 	private static String User = "developer";
 	private static String Password = "1234567";
 	private static Connection conn = null;
@@ -21,7 +21,7 @@ public class ConexaoBanco {
 		conectar();
 	}
 
-	private static void conectar() {
+	private static void conectar()  {
 		try {
 			if (conn == null) {
 				Class.forName("com.mysql.jdbc.Driver");
