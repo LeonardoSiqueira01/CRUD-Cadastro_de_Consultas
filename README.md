@@ -1,4 +1,4 @@
-# CRUD - JAVA DATABASE CONNECTIVITY
+# CRUD - JAVA DATABASE CONNECTIVITY - MySQL
 Neste projeto criei um sistema CRUD. Sendo possível efetuar requisições com usuários e consultas.
 <p>
  <img align="center" alt="Leo-JAVA" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg">
